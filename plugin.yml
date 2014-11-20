@@ -1,0 +1,8 @@
+name: OITC
+version: 1.0.1
+author: Janhektor
+main: de.janhektor.oitc.Main
+
+commands:
+  oitc:
+    description: Allgemeine Infos.
