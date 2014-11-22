@@ -4,6 +4,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.janhektor.oitc.commands.CommandOITC;
+import de.janhektor.oitc.commands.CommandSetArenaSpawn;
+import de.janhektor.oitc.commands.CommandVote;
 import de.janhektor.oitc.listener.JoinListener;
 import de.janhektor.oitc.listener.LoginListener;
 import de.janhektor.oitc.listener.QuitListener;
@@ -22,6 +24,9 @@ public class Main extends JavaPlugin {
 	public String adminPermission;
 	public String[] motds = new String[3]; // 0 = Lobby, 1 = Full, 2 = InGame
 	
+	public ArenaManager arenaManager;
+	public MapVoting mapVoting;
+	
 	public boolean ingame = false;
 	
 	public Countdown countdown;
@@ -35,17 +40,23 @@ public class Main extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new ServerPingListener(this), this);
 		
 		getCommand("oitc").setExecutor(new CommandOITC(this));
+		getCommand("setarenaspawn").setExecutor(new CommandSetArenaSpawn(this));
+		getCommand("vote").setExecutor(new CommandVote(this));
 		
 		initConfig();
 		loadConfigData();
 		
 		this.countdown = new Countdown(this);
+		this.arenaManager = new ArenaManager(this);
+		this.arenaManager.loadDataFile();
+		this.mapVoting = new MapVoting(arenaManager.getArenas());
 		
 		System.out.println("[OITC] Plugin aktiviert - Developed by Janhektor");
 	}
 	
 	@Override
 	public void onDisable() {
+		this.arenaManager.saveArenas();
 		System.out.println("[OITC] Plugin deaktiviert - Developed by Janhektor");
 	}
 	
