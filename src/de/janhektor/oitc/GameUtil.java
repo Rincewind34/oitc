@@ -23,6 +23,11 @@ public class GameUtil {
 		plugin.ingame = true;
 	}
 	
+	public static void endMapVoting(Main plugin, String winMap, int votes) {
+		Bukkit.broadcastMessage(plugin.prefix + "§aDas Map-Voting ist beendet!");
+		Bukkit.broadcastMessage(plugin.prefix + "§aDie Map §6" + winMap + "§a hat mit §6" + votes + "§a Votes gewonnen!");
+	}
+	
 	public static ItemStack getBow() {
 		ItemStack bow = new ItemStack(Material.BOW);
 		ItemMeta bowMeta = bow.getItemMeta();

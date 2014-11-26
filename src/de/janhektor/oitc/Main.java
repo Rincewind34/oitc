@@ -1,11 +1,17 @@
 package de.janhektor.oitc;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
 
 import de.janhektor.oitc.commands.CommandOITC;
 import de.janhektor.oitc.commands.CommandSetArenaSpawn;
 import de.janhektor.oitc.commands.CommandVote;
+import de.janhektor.oitc.listener.ArrowShotListener;
 import de.janhektor.oitc.listener.JoinListener;
 import de.janhektor.oitc.listener.LoginListener;
 import de.janhektor.oitc.listener.QuitListener;
@@ -24,10 +30,14 @@ public class Main extends JavaPlugin {
 	public String adminPermission;
 	public String[] motds = new String[3]; // 0 = Lobby, 1 = Full, 2 = InGame
 	
+	public List<Location> spawnPoints = new ArrayList<Location>();
+	
 	public ArenaManager arenaManager;
 	public MapVoting mapVoting;
+	public Scoreboard voteScoreboard;
 	
 	public boolean ingame = false;
+	public boolean arrayTrail;
 	
 	public Countdown countdown;
 	
@@ -38,6 +48,7 @@ public class Main extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new QuitListener(this), this);
 		getServer().getPluginManager().registerEvents(new LoginListener(this), this);
 		getServer().getPluginManager().registerEvents(new ServerPingListener(this), this);
+		getServer().getPluginManager().registerEvents(new ArrowShotListener(this), this);
 		
 		getCommand("oitc").setExecutor(new CommandOITC(this));
 		getCommand("setarenaspawn").setExecutor(new CommandSetArenaSpawn(this));
@@ -49,7 +60,7 @@ public class Main extends JavaPlugin {
 		this.countdown = new Countdown(this);
 		this.arenaManager = new ArenaManager(this);
 		this.arenaManager.loadDataFile();
-		this.mapVoting = new MapVoting(arenaManager.getArenas());
+		this.mapVoting = new MapVoting(arenaManager.getArenas(), this);
 		
 		System.out.println("[OITC] Plugin aktiviert - Developed by Janhektor");
 	}
@@ -73,6 +84,7 @@ public class Main extends JavaPlugin {
 		cfg.addDefault("Motd.Lobby", "&aLobby");
 		cfg.addDefault("Motd.Full", "&cFull");
 		cfg.addDefault("Motd.Ingame", "&cInGame");
+		cfg.addDefault("ArrowTrail", true);
 		cfg.options().copyDefaults(true);
 		saveConfig();
 	}
@@ -88,5 +100,6 @@ public class Main extends JavaPlugin {
 		this.motds[0] = cfg.getString("Motd.Lobby").replace("&", "§");
 		this.motds[1] = cfg.getString("Motd.Full").replace("&", "§");
 		this.motds[2] = cfg.getString("Motd.Ingame").replace("&" , "§");
+		this.arrayTrail = cfg.getBoolean("ArrowTrail");
 	}
 }

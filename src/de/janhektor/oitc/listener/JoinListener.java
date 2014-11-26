@@ -25,5 +25,7 @@ public class JoinListener implements Listener {
 		if (Bukkit.getOnlinePlayers().length >= plugin.minPlayers) {
 			plugin.countdown.startLobbyCountdown();
 		}
+		
+		p.setScoreboard(plugin.voteScoreboard);
 	}
 }

@@ -33,6 +33,10 @@ public class Countdown {
 									+ " "
 									+ (plugin.lobbyTime == 1 ? "Sekunde"
 											: "Sekunden"));
+							
+							if (plugin.lobbyTime == 10) {
+								plugin.mapVoting.endVoting();
+							}
 						}
 						
 						if (plugin.lobbyTime <= 0) {

@@ -36,9 +36,11 @@ public class ArenaManager {
 			save();
 		}
 		for (String name : cfg.getConfigurationSection("Arena.").getKeys(false)) {
+			System.out.println(name);
 			List<String> spawns = cfg.getStringList("Arena." + name);
 			Arena arena = new Arena(name);
 			for (String entry : spawns) {
+				System.out.println(entry);
 				String[] data = entry.split(",");
 				World w = Bukkit.getWorld(data[0]);
 				int x = Integer.parseInt(data[1]);
@@ -46,6 +48,7 @@ public class ArenaManager {
 				int z = Integer.parseInt(data[3]);
 				arena.addSpawn(new Location(w, x, y, z));
 			}
+			this.arenas.add(arena);
 		}
 	}
 	
