@@ -1,7 +1,9 @@
 package de.janhektor.oitc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -11,10 +13,10 @@ import org.bukkit.scoreboard.Scoreboard;
 import de.janhektor.oitc.commands.CommandOITC;
 import de.janhektor.oitc.commands.CommandSetArenaSpawn;
 import de.janhektor.oitc.commands.CommandVote;
-import de.janhektor.oitc.listener.ArrowShotListener;
 import de.janhektor.oitc.listener.JoinListener;
 import de.janhektor.oitc.listener.LoginListener;
 import de.janhektor.oitc.listener.QuitListener;
+import de.janhektor.oitc.listener.RespawnListener;
 import de.janhektor.oitc.listener.ServerPingListener;
 
 public class Main extends JavaPlugin {
@@ -26,11 +28,15 @@ public class Main extends JavaPlugin {
 	public int lobbyTime;
 	public int maxLobbyTime;
 	
+	public int maxLives;
+	
 	public String prefix;
 	public String adminPermission;
 	public String[] motds = new String[3]; // 0 = Lobby, 1 = Full, 2 = InGame
 	
 	public List<Location> spawnPoints = new ArrayList<Location>();
+	
+	public Map<String, Integer> lives = new HashMap<String, Integer>();
 	
 	public ArenaManager arenaManager;
 	public MapVoting mapVoting;
@@ -48,7 +54,7 @@ public class Main extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new QuitListener(this), this);
 		getServer().getPluginManager().registerEvents(new LoginListener(this), this);
 		getServer().getPluginManager().registerEvents(new ServerPingListener(this), this);
-		getServer().getPluginManager().registerEvents(new ArrowShotListener(this), this);
+		getServer().getPluginManager().registerEvents(new RespawnListener(this), this);
 		
 		getCommand("oitc").setExecutor(new CommandOITC(this));
 		getCommand("setarenaspawn").setExecutor(new CommandSetArenaSpawn(this));
@@ -80,6 +86,7 @@ public class Main extends JavaPlugin {
 		cfg.addDefault("MinPlayers", 2);
 		cfg.addDefault("MaxPlayers", 16);
 		cfg.addDefault("LobbyTime", 120);
+		cfg.addDefault("Lives", 5);
 		cfg.addDefault("AdminPermission", "oitc.*");
 		cfg.addDefault("Motd.Lobby", "&aLobby");
 		cfg.addDefault("Motd.Full", "&cFull");
@@ -101,5 +108,6 @@ public class Main extends JavaPlugin {
 		this.motds[1] = cfg.getString("Motd.Full").replace("&", "§");
 		this.motds[2] = cfg.getString("Motd.Ingame").replace("&" , "§");
 		this.arrayTrail = cfg.getBoolean("ArrowTrail");
+		this.maxLives = cfg.getInt("Lives");
 	}
 }

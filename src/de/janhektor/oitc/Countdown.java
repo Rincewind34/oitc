@@ -1,6 +1,7 @@
 package de.janhektor.oitc;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 public class Countdown {
 
@@ -37,6 +38,11 @@ public class Countdown {
 							if (plugin.lobbyTime == 10) {
 								plugin.mapVoting.endVoting();
 							}
+						}
+						
+						for (Player p : Bukkit.getOnlinePlayers()) {
+							p.setLevel(plugin.lobbyTime);
+							p.setExp((float) plugin.lobbyTime / (float) plugin.maxLobbyTime); 
 						}
 						
 						if (plugin.lobbyTime <= 0) {
