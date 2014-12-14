@@ -4,6 +4,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import de.janhektor.oitc.GameUtil;
 import de.janhektor.oitc.Main;
@@ -33,5 +35,6 @@ public class RespawnListener implements Listener {
 		
 		p.teleport(plugin.spawnPoints.get(GameUtil.getRnd().nextInt(plugin.spawnPoints.size())));
 		p.sendMessage(plugin.prefix + "§7Du konntest respawnen, da du noch §3" + plugin.lives.get(p.getName()) + "§7 Leben hast.");
+		p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100, 1));
 	}
 }

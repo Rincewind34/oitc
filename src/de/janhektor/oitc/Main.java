@@ -13,6 +13,10 @@ import org.bukkit.scoreboard.Scoreboard;
 import de.janhektor.oitc.commands.CommandOITC;
 import de.janhektor.oitc.commands.CommandSetArenaSpawn;
 import de.janhektor.oitc.commands.CommandVote;
+import de.janhektor.oitc.listener.BlockListener;
+import de.janhektor.oitc.listener.DeathListener;
+import de.janhektor.oitc.listener.FoodListener;
+import de.janhektor.oitc.listener.ItemListener;
 import de.janhektor.oitc.listener.JoinListener;
 import de.janhektor.oitc.listener.LoginListener;
 import de.janhektor.oitc.listener.QuitListener;
@@ -48,6 +52,8 @@ public class Main extends JavaPlugin {
 	public Countdown countdown;
 	
 	
+	// TODO Wenn von Pfeil getroffen -> Instant Tot
+	
 	@Override
 	public void onEnable() {
 		getServer().getPluginManager().registerEvents(new JoinListener(this), this);
@@ -55,6 +61,10 @@ public class Main extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new LoginListener(this), this);
 		getServer().getPluginManager().registerEvents(new ServerPingListener(this), this);
 		getServer().getPluginManager().registerEvents(new RespawnListener(this), this);
+		getServer().getPluginManager().registerEvents(new DeathListener(this), this);
+		getServer().getPluginManager().registerEvents(new BlockListener(), this);
+		getServer().getPluginManager().registerEvents(new FoodListener(), this);
+		getServer().getPluginManager().registerEvents(new ItemListener(), this);
 		
 		getCommand("oitc").setExecutor(new CommandOITC(this));
 		getCommand("setarenaspawn").setExecutor(new CommandSetArenaSpawn(this));
