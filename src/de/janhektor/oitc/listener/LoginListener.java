@@ -7,24 +7,23 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 
+import de.janhektor.oitc.InfoLayout;
 import de.janhektor.oitc.Main;
 
 public class LoginListener implements Listener {
 
-	private Main plugin;
-	
-	public LoginListener(Main plugin) {
-		this.plugin = plugin;
-	}
+	private Main plugin = Main.getInstance();
 	
 	@EventHandler
-	public void onPlayerLogin (PlayerLoginEvent e) {
-		Player p = e.getPlayer();
-		if (Bukkit.getOnlinePlayers().size() >= plugin.maxPlayers) {
-			if (!p.hasPermission(plugin.adminPermission)) {
-				e.disallow(Result.KICK_FULL, plugin.prefix + "§cDieses Spiel ist voll!");
+	public void onPlayerLogin (PlayerLoginEvent event) {
+		InfoLayout layout = new InfoLayout("OITC");
+		Player player = event.getPlayer();
+		
+		if (Bukkit.getOnlinePlayers().size() >= this.plugin.maxPlayers) {
+			if (!player.hasPermission(this.plugin.adminPermission)) {
+				event.disallow(Result.KICK_FULL, layout.prefix + layout.clNeg + "§cDieses Spiel ist voll!");
 			} else {
-				e.allow();
+				event.allow();
 			}
 		}
 	}

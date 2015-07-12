@@ -10,11 +10,7 @@ import de.janhektor.oitc.Main;
 
 public class ServerPingListener implements Listener {
 
-	private Main plugin;
-	
-	public ServerPingListener(Main plugin) {
-		this.plugin = plugin;
-	}
+	private Main plugin = Main.getInstance();
 	
 	@EventHandler
 	public void onServerPing (ServerListPingEvent e) {

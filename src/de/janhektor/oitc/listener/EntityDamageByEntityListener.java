@@ -8,12 +8,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import de.janhektor.oitc.GameUtil;
-import de.janhektor.oitc.Main;
+import de.janhektor.oitc.InfoLayout;
 
 public class EntityDamageByEntityListener implements Listener {
 	
 	@EventHandler
 	public void onDamage(EntityDamageByEntityEvent event) {
+		InfoLayout layout = new InfoLayout("OITC");
 		Entity entity = event.getEntity();
 		Entity damager = event.getDamager();
 		
@@ -26,7 +27,7 @@ public class EntityDamageByEntityListener implements Listener {
 				
 				Player killer = (Player) arrow.getShooter();
 				killer.getInventory().setItem(8, GameUtil.getArrow());
-				killer.sendMessage(Main.getInstance().prefix + "§7Du hast §4" + player.getName() + " §7erschossen!");
+				killer.sendMessage(layout.prefix + layout.clSec + "Du hast " + layout.clPos + player.getName() + layout.clSec + " erschossen!");
 			}
 		}
 	}

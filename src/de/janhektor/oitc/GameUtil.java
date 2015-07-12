@@ -11,14 +11,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class GameUtil {
 	
 	private static Random rnd;
+	private static InfoLayout layout;
 	
 	static {
 		GameUtil.rnd = new Random();
+		GameUtil.layout = new InfoLayout("OITC");
 	}
 
 	public static void startGame(Main plugin) {
-		Bukkit.broadcastMessage(plugin.prefix + "§6Das Spiel hat begonnen!");
-		Bukkit.broadcastMessage(plugin.prefix + "§6Viel Glueck!");
+		Bukkit.broadcastMessage(GameUtil.layout.prefix + GameUtil.layout.clSec + "Das Spiel hat begonnen!");
+		Bukkit.broadcastMessage(GameUtil.layout.prefix + GameUtil.layout.clSec + "Viel Glueck!");
 		
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			p.getInventory().clear();
@@ -38,8 +40,13 @@ public class GameUtil {
 	}
 	
 	public static void endMapVoting(Main plugin, String winMap, int votes) {
-		Bukkit.broadcastMessage(plugin.prefix + "§aDas Map-Voting ist beendet!");
-		Bukkit.broadcastMessage(plugin.prefix + "§aDie Map §6" + winMap + "§a hat mit §6" + votes + "§a Votes gewonnen!");
+		Bukkit.broadcastMessage(GameUtil.layout.prefix + GameUtil.layout.clPos + "Das Map-Voting ist beendet!");
+		Bukkit.broadcastMessage(GameUtil.layout.prefix
+				+ GameUtil.layout.clPos + "Die Map "
+				+ GameUtil.layout.clSec + winMap
+				+ GameUtil.layout.clPos + " hat mit "
+				+ GameUtil.layout.clSec + votes
+				+ GameUtil.layout.clPos + " Votes gewonnen!");
 	}
 	
 	public static Random getRnd() {

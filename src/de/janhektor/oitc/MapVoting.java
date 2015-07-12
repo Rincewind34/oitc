@@ -102,4 +102,8 @@ public class MapVoting {
 	public boolean isRunning() {
 		return this.running;
 	}
+	
+	public Map<String, Integer> getArenas() {
+		return arenas;
+	}
 }

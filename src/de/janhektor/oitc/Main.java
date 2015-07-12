@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -39,7 +40,6 @@ public class Main extends JavaPlugin {
 	
 	public int maxLives;
 	
-	public String prefix;
 	public String adminPermission;
 	public String[] motds = new String[3]; // 0 = Lobby, 1 = Full, 2 = InGame
 	
@@ -54,42 +54,44 @@ public class Main extends JavaPlugin {
 	public boolean ingame = false;
 	public boolean arrayTrail;
 	
+	private InfoLayout layout;
+	
 	@Override
 	public void onLoad() {
 		Main.instance = this;
+		this.layout = new InfoLayout("OITC");
 	}
 	
 	@Override
 	public void onEnable() {
-		super.getServer().getPluginManager().registerEvents(new JoinListener(this), this);
-		super.getServer().getPluginManager().registerEvents(new QuitListener(this), this);
-		super.getServer().getPluginManager().registerEvents(new LoginListener(this), this);
-		super.getServer().getPluginManager().registerEvents(new ServerPingListener(this), this);
-		super.getServer().getPluginManager().registerEvents(new RespawnListener(this), this);
-		super.getServer().getPluginManager().registerEvents(new DeathListener(this), this);
+		super.getServer().getPluginManager().registerEvents(new JoinListener(), this);
+		super.getServer().getPluginManager().registerEvents(new QuitListener(), this);
+		super.getServer().getPluginManager().registerEvents(new LoginListener(), this);
+		super.getServer().getPluginManager().registerEvents(new ServerPingListener(), this);
+		super.getServer().getPluginManager().registerEvents(new RespawnListener(), this);
+		super.getServer().getPluginManager().registerEvents(new DeathListener(), this);
 		super.getServer().getPluginManager().registerEvents(new BlockListener(), this);
 		super.getServer().getPluginManager().registerEvents(new FoodListener(), this);
 		super.getServer().getPluginManager().registerEvents(new ItemListener(), this);
 		super.getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
 		
-		super.getCommand("vote").setExecutor(new CommandVote(this));
-		
 		this.initConfig();
 		this.loadConfigData();
 		
 		new CommandOITC().create();
+		new CommandVote().create();
 		
 		this.arenaManager = new ArenaManager(this);
 		this.arenaManager.loadDataFile();
 		this.mapVoting = new MapVoting(arenaManager.getArenas(), this);
 		
-		System.out.println("[OITC] Plugin aktiviert - Developed by Janhektor");
+		Bukkit.getConsoleSender().sendMessage(this.layout.prefix + layout.clPos + "Plugin aktiviert - Developed by Janhektor");
 	}
 	
 	@Override
 	public void onDisable() {
 		this.arenaManager.saveArenas();
-		System.out.println("[OITC] Plugin deaktiviert - Developed by Janhektor");
+		Bukkit.getConsoleSender().sendMessage(this.layout.prefix + layout.clNeg + "Plugin deaktiviert - Developed by Janhektor");
 	}
 	
 	
@@ -97,7 +99,6 @@ public class Main extends JavaPlugin {
 	
 	private void initConfig() {
 		FileConfiguration cfg = getConfig();
-		cfg.addDefault("Prefix", "&6[OITC]");
 		cfg.addDefault("MinPlayers", 2);
 		cfg.addDefault("MaxPlayers", 16);
 		cfg.addDefault("LobbyTime", 120);
@@ -113,7 +114,6 @@ public class Main extends JavaPlugin {
 	
 	private void loadConfigData() {
 		FileConfiguration cfg = getConfig();
-		this.prefix = cfg.getString("Prefix").replace("&", "§") + "§r ";
 		this.minPlayers = cfg.getInt("MinPlayers");
 		this.maxPlayers = cfg.getInt("MaxPlayers");
 		this.lobbyTime = cfg.getInt("LobbyTime");

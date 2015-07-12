@@ -2,9 +2,3 @@ name: OITC
 version: 1.0.6
 author: Janhektor
 main: de.janhektor.oitc.Main
-
-commands:
-  vote:
-    description: Voten.
-  setarenaspawn:
-    description: Arena Spawn setzen.

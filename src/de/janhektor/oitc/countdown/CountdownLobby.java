@@ -3,6 +3,7 @@ package de.janhektor.oitc.countdown;
 import org.bukkit.Bukkit;
 
 import de.janhektor.oitc.GameUtil;
+import de.janhektor.oitc.InfoLayout;
 import de.janhektor.oitc.Main;
 import de.janhektor.oitc.game.countdown.abstracts.AbstractCountdown;
 import de.janhektor.oitc.game.countdown.abstracts.Countdown;
@@ -11,9 +12,11 @@ import de.janhektor.oitc.game.countdown.abstracts.CountdownListener;
 public class CountdownLobby extends AbstractCountdown implements CountdownListener {
 	
 	private static Countdown instance;
+	private static InfoLayout layout;
 	
 	static {
 		CountdownLobby.instance = new CountdownLobby();
+		CountdownLobby.layout = new InfoLayout("OITC");
 	}
 	
 	public static Countdown getInstance() {
@@ -27,7 +30,7 @@ public class CountdownLobby extends AbstractCountdown implements CountdownListen
 
 	@Override
 	public void onAnnounceTime() {
-		Bukkit.broadcastMessage(super.plugin.prefix + "§aDas Spiel startet in " + super.secondsLeft + " "
+		Bukkit.broadcastMessage(CountdownLobby.layout.prefix + CountdownLobby.layout.clPos + "Das Spiel startet in " + super.secondsLeft + " "
 				+ (super.secondsLeft == 1 ? "Sekunde" : "Sekunden"));
 		
 		if (super.secondsLeft <= 10 && super.plugin.mapVoting.isRunning()) {
