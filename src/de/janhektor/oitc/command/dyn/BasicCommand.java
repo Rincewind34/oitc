@@ -37,8 +37,9 @@ public class BasicCommand implements CommandExecutor, PluginIdentifiableCommand 
 	
 	private TabCompleter tabCompleter;
 	
+	private CommandSettings settings;
+	
 	private final String name;
-	private final CommandSettings settings;
 	private final Plugin plugin;
 	
 	public BasicCommand(String name, CommandSettings settings, Plugin plugin) {
@@ -129,6 +130,10 @@ public class BasicCommand implements CommandExecutor, PluginIdentifiableCommand 
 		this.tabCompleter = tabCompleter;
 	}
 	
+	public void setSettings(CommandSettings settings) {
+		this.settings = settings;
+	}
+	
 	public String getDescription() {
 		return this.description;
 	}
@@ -151,6 +156,10 @@ public class BasicCommand implements CommandExecutor, PluginIdentifiableCommand 
 	
 	public TabCompleter getTabCompleter() {
 		return this.tabCompleter;
+	}
+	
+	public CommandSettings getSettings() {
+		return this.settings;
 	}
 	
 	public void create() {

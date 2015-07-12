@@ -14,10 +14,10 @@ public class SimpleCommandSettings implements CommandSettings {
 		Validate.notNull(messagePrefix, "MessagePrefix cannot be null!");
 
 		this.messagePrefix = messagePrefix;
-		this.messageNoPermission = "§7Du hast hierzu keine Berechtigung.";
-		this.messageSyntax = "§7Syntax: %s";
-		this.messageOnlyPlayer = "§7Dieser Befehl ist nur für Spieler.";
-		this.messageDefault = "§7Bitte benutze ein spezifisches Argument.";
+		this.messageNoPermission = "§cDu hast hierzu keine Berechtigung.";
+		this.messageSyntax = "§cSyntax: %s";
+		this.messageOnlyPlayer = "§cDu musst ein Spieler sein.";
+		this.messageDefault = "§cBitte benutze ein spezifisches Argument.";
 	}
 
 	public SimpleCommandSettings() {

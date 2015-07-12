@@ -1,11 +1,9 @@
 name: OITC
-version: 1.0.5
+version: 1.0.6
 author: Janhektor
 main: de.janhektor.oitc.Main
 
 commands:
-  oitc:
-    description: Allgemeine Infos.
   vote:
     description: Voten.
   setarenaspawn:

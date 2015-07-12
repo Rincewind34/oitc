@@ -55,8 +55,6 @@ public class Main extends JavaPlugin {
 	public boolean ingame = false;
 	public boolean arrayTrail;
 	
-	// TODO Wenn von Pfeil getroffen -> Instant Tot
-	
 	@Override
 	public void onLoad() {
 		Main.instance = this;
@@ -75,12 +73,13 @@ public class Main extends JavaPlugin {
 		super.getServer().getPluginManager().registerEvents(new ItemListener(), this);
 		super.getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
 		
-		super.getCommand("oitc").setExecutor(new CommandOITC(this));
 		super.getCommand("setarenaspawn").setExecutor(new CommandSetArenaSpawn(this));
 		super.getCommand("vote").setExecutor(new CommandVote(this));
 		
 		this.initConfig();
 		this.loadConfigData();
+		
+		new CommandOITC().create();
 		
 		this.arenaManager = new ArenaManager(this);
 		this.arenaManager.loadDataFile();
