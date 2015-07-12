@@ -15,6 +15,7 @@ import de.janhektor.oitc.commands.CommandSetArenaSpawn;
 import de.janhektor.oitc.commands.CommandVote;
 import de.janhektor.oitc.listener.BlockListener;
 import de.janhektor.oitc.listener.DeathListener;
+import de.janhektor.oitc.listener.EntityDamageByEntityListener;
 import de.janhektor.oitc.listener.FoodListener;
 import de.janhektor.oitc.listener.ItemListener;
 import de.janhektor.oitc.listener.JoinListener;
@@ -25,6 +26,12 @@ import de.janhektor.oitc.listener.ServerPingListener;
 
 public class Main extends JavaPlugin {
 
+	private static Main instance;
+	
+	public static Main getInstance() {
+		return Main.instance;
+	}
+	
 	public int minPlayers;
 	public int maxPlayers;
 	
@@ -48,31 +55,33 @@ public class Main extends JavaPlugin {
 	public boolean ingame = false;
 	public boolean arrayTrail;
 	
-	public Countdown countdown;
-	
-	
 	// TODO Wenn von Pfeil getroffen -> Instant Tot
 	
 	@Override
+	public void onLoad() {
+		Main.instance = this;
+	}
+	
+	@Override
 	public void onEnable() {
-		getServer().getPluginManager().registerEvents(new JoinListener(this), this);
-		getServer().getPluginManager().registerEvents(new QuitListener(this), this);
-		getServer().getPluginManager().registerEvents(new LoginListener(this), this);
-		getServer().getPluginManager().registerEvents(new ServerPingListener(this), this);
-		getServer().getPluginManager().registerEvents(new RespawnListener(this), this);
-		getServer().getPluginManager().registerEvents(new DeathListener(this), this);
-		getServer().getPluginManager().registerEvents(new BlockListener(), this);
-		getServer().getPluginManager().registerEvents(new FoodListener(), this);
-		getServer().getPluginManager().registerEvents(new ItemListener(), this);
+		super.getServer().getPluginManager().registerEvents(new JoinListener(this), this);
+		super.getServer().getPluginManager().registerEvents(new QuitListener(this), this);
+		super.getServer().getPluginManager().registerEvents(new LoginListener(this), this);
+		super.getServer().getPluginManager().registerEvents(new ServerPingListener(this), this);
+		super.getServer().getPluginManager().registerEvents(new RespawnListener(this), this);
+		super.getServer().getPluginManager().registerEvents(new DeathListener(this), this);
+		super.getServer().getPluginManager().registerEvents(new BlockListener(), this);
+		super.getServer().getPluginManager().registerEvents(new FoodListener(), this);
+		super.getServer().getPluginManager().registerEvents(new ItemListener(), this);
+		super.getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
 		
-		getCommand("oitc").setExecutor(new CommandOITC(this));
-		getCommand("setarenaspawn").setExecutor(new CommandSetArenaSpawn(this));
-		getCommand("vote").setExecutor(new CommandVote(this));
+		super.getCommand("oitc").setExecutor(new CommandOITC(this));
+		super.getCommand("setarenaspawn").setExecutor(new CommandSetArenaSpawn(this));
+		super.getCommand("vote").setExecutor(new CommandVote(this));
 		
-		initConfig();
-		loadConfigData();
+		this.initConfig();
+		this.loadConfigData();
 		
-		this.countdown = new Countdown(this);
 		this.arenaManager = new ArenaManager(this);
 		this.arenaManager.loadDataFile();
 		this.mapVoting = new MapVoting(arenaManager.getArenas(), this);

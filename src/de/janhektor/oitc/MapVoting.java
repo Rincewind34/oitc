@@ -16,6 +16,8 @@ public class MapVoting {
 	private List<String> voted;
 	private Main plugin;
 	
+	private boolean running;
+	
 	public MapVoting(List<Arena> arenas, Main plugin) {
 		this.arenas = new HashMap<String, Integer>();
 		this.voted = new ArrayList<String>();
@@ -66,21 +68,26 @@ public class MapVoting {
 	
 	private void initVoting() {
 		this.plugin.voteScoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
-		Objective obj;
-		if (this.plugin.voteScoreboard.getObjective("mapvoting") == null) {
-			 obj = this.plugin.voteScoreboard.registerNewObjective("mapvoting", "dummy");
-		} else {
-			obj = this.plugin.voteScoreboard.getObjective("mapvoting");
+		
+		Objective obj = this.plugin.voteScoreboard.getObjective("mapvoting");
+		
+		if (obj == null) {
+			obj = this.plugin.voteScoreboard.registerNewObjective("mapvoting", "dummy");
 		}
 		
 		obj.setDisplayName("§6Arena Voting");
 		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+		
 		for (String arenaName : this.arenas.keySet()) {
 			obj.getScore(arenaName).setScore(0);
 		}
+		
+		this.running = true;
 	}
 	
 	public void endVoting() {
+		this.running = false;
+		
 		String bestArena = this.getBestArena();
 		Arena arena = this.plugin.arenaManager.getByName(bestArena);
 		
@@ -90,5 +97,9 @@ public class MapVoting {
 		
 		this.plugin.spawnPoints = arena.getSpawns();
 		GameUtil.endMapVoting(this.plugin, bestArena, this.arenas.get(bestArena));
+	}
+	
+	public boolean isRunning() {
+		return this.running;
 	}
 }

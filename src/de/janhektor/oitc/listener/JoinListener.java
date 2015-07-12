@@ -7,6 +7,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import de.janhektor.oitc.Main;
+import de.janhektor.oitc.countdown.CountdownLobby;
+import de.janhektor.oitc.game.countdown.abstracts.Countdown;
 
 public class JoinListener implements Listener {
 
@@ -19,10 +21,13 @@ public class JoinListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin (PlayerJoinEvent e) {
 		Player p = e.getPlayer();
-		e.setJoinMessage(plugin.prefix + "§a" + p.getName() + " hat das Spiel betreten!");
+		e.setJoinMessage(this.plugin.prefix + "§a" + p.getName() + " hat das Spiel betreten!");
 		
 		if (Bukkit.getOnlinePlayers().size() >= this.plugin.minPlayers) {
-			this.plugin.countdown.startLobbyCountdown();
+			Countdown countdown = CountdownLobby.getInstance();
+			if (!countdown.isRunning()) {
+				countdown.start();
+			}
 		}
 		
 		p.setScoreboard(this.plugin.voteScoreboard);
