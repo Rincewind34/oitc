@@ -15,7 +15,6 @@ public class DeathListener implements Listener {
 
 	private Main plugin = Main.getInstance();
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerDeath (PlayerDeathEvent event) {
 		InfoLayout layout = new InfoLayout("OITC");
@@ -44,14 +43,20 @@ public class DeathListener implements Listener {
 			Bukkit.broadcastMessage(layout.prefix + layout.clSec + "Die Runde ist beendet!");
 			Bukkit.broadcastMessage(layout.prefix + layout.clSec + "Der Sieger ist " + winner.getName());
 			
-			Bukkit.getScheduler().scheduleAsyncDelayedTask(this.plugin, new Runnable() {
+			new Thread(new Runnable() {
 				
 				@Override
 				public void run() {
+					try {
+						Thread.sleep(1000L * 20);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					
 					Bukkit.shutdown();
 				}
-				
-			}, 120L);
+			}).run();;
+			
 		}
 	}
 }
