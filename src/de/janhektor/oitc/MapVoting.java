@@ -19,29 +19,33 @@ public class MapVoting {
 	public MapVoting(List<Arena> arenas, Main plugin) {
 		this.arenas = new HashMap<String, Integer>();
 		this.voted = new ArrayList<String>();
+		
 		for (Arena a : arenas) {
 			this.arenas.put(a.getName().toLowerCase(), 0);
 		}
+		
 		this.plugin = plugin;
 		this.initVoting();
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void playerVote(Player p, String arena) {
-		if (!arenas.containsKey(arena)) return;
-		arenas.put(arena, arenas.get(arena) + 1);
-		voted.add(p.getName());
-		plugin.voteScoreboard
+		if (!this.arenas.containsKey(arena)) {
+			return;
+		}
+		
+		this.arenas.put(arena, arenas.get(arena) + 1);
+		this.voted.add(p.getName());
+		this.plugin.voteScoreboard
 				.getObjective(DisplaySlot.SIDEBAR)
 				.getScore(arena)
-				.setScore(plugin.voteScoreboard.getObjective(DisplaySlot.SIDEBAR).getScore(arena).getScore() + 1);
+				.setScore(this.plugin.voteScoreboard.getObjective(DisplaySlot.SIDEBAR).getScore(arena).getScore() + 1);
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			player.setScoreboard(plugin.voteScoreboard);
+			player.setScoreboard(this.plugin.voteScoreboard);
 		}
 	}
 	
 	public boolean hasVoted(Player p) {
-		return voted.contains(p.getName());
+		return this.voted.contains(p.getName());
 	}
 	
 	private String getBestArena() {
@@ -61,15 +65,15 @@ public class MapVoting {
 	}
 	
 	private void initVoting() {
-		plugin.voteScoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+		this.plugin.voteScoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
 		Objective obj;
-		if (plugin.voteScoreboard.getObjective("mapvoting") == null) {
-			 obj = plugin.voteScoreboard.registerNewObjective("mapvoting", "dummy");
+		if (this.plugin.voteScoreboard.getObjective("mapvoting") == null) {
+			 obj = this.plugin.voteScoreboard.registerNewObjective("mapvoting", "dummy");
 		} else {
-			obj = plugin.voteScoreboard.getObjective("mapvoting");
+			obj = this.plugin.voteScoreboard.getObjective("mapvoting");
 		}
 		
-		obj.setDisplayName("§6Arena Voting");
+		obj.setDisplayName("Â§ï¿½6Arena Voting");
 		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		for (String arenaName : this.arenas.keySet()) {
 			obj.getScore(arenaName).setScore(0);
@@ -78,9 +82,13 @@ public class MapVoting {
 	
 	public void endVoting() {
 		String bestArena = this.getBestArena();
-		Arena arena = plugin.arenaManager.getByName(bestArena);
-		if (arena == null) arena = plugin.arenaManager.getArenas().get(0);
-		plugin.spawnPoints = arena.getSpawns();
-		GameUtil.endMapVoting(plugin, bestArena, this.arenas.get(bestArena));
+		Arena arena = this.plugin.arenaManager.getByName(bestArena);
+		
+		if (arena == null) {
+			arena = this.plugin.arenaManager.getArenas().get(0);
+		}
+		
+		this.plugin.spawnPoints = arena.getSpawns();
+		GameUtil.endMapVoting(this.plugin, bestArena, this.arenas.get(bestArena));
 	}
 }

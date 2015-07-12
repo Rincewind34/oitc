@@ -22,23 +22,22 @@ public class DeathListener implements Listener {
 	@EventHandler
 	public void onPlayerDeath (PlayerDeathEvent e) {
 		Player p = e.getEntity();	
-		if (!plugin.ingame) return;
-		if (plugin.lives.containsKey(p.getName())) {
+		if (!this.plugin.ingame) return;
+		if (this.plugin.lives.containsKey(p.getName())) {
 			int lives = plugin.lives.get(p.getName());
 			if (lives <= 1) {
-				// Kick Player
-				p.kickPlayer("§cDu hast keine Leben mehr!");
+				p.kickPlayer("Â§cDu hast keine Leben mehr!");
 			} else {
-				plugin.lives.put(p.getName(), lives-1);
+				this.plugin.lives.put(p.getName(), lives - 1);
 			}
 		}
 		
-		if (Bukkit.getOnlinePlayers().length <= 1) {
-			Player winner = Bukkit.getOnlinePlayers()[0];
+		if (Bukkit.getOnlinePlayers().size() <= 1) {
+			Player winner = Bukkit.getOnlinePlayers().iterator().next();
 			winner.setGameMode(GameMode.CREATIVE);
 			winner.setVelocity(new Vector(0, 7.5D, 0));
-			Bukkit.broadcastMessage(plugin.prefix + "§6Die Runde ist beendet!");
-			Bukkit.broadcastMessage(plugin.prefix + "§6Der Sieger ist " + winner.getName());
+			Bukkit.broadcastMessage(this.plugin.prefix + "Â§6Die Runde ist beendet!");
+			Bukkit.broadcastMessage(this.plugin.prefix + "Â§6Der Sieger ist " + winner.getName());
 			Bukkit.getScheduler().scheduleAsyncDelayedTask(this.plugin, new Runnable() {
 				
 				@Override

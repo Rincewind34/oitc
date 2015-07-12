@@ -22,29 +22,29 @@ public class CommandVote implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender cs, Command cmd, String label, String[] args) {
 		if (!(cs instanceof Player)) {
-			cs.sendMessage(plugin.prefix + "§cDu musst ein Spieler sein!");
+			cs.sendMessage(this.plugin.prefix + "Â§cDu musst ein Spieler sein!");
 			return true;
 		}
 		Player p = (Player) cs;
 		
 		if (args.length != 1) {
-			p.sendMessage(plugin.prefix + "§cSyntax: /vote <arena>");
+			p.sendMessage(this.plugin.prefix + "Â§cSyntax: /vote <arena>");
 			return true;
 		}
 		
-		if (plugin.mapVoting.hasVoted(p)) {
-			p.sendMessage(plugin.prefix + "§cDu hast bereits eine Stimme abgegeben!");
+		if (this.plugin.mapVoting.hasVoted(p)) {
+			p.sendMessage(this.plugin.prefix + "Â§cDu hast bereits eine Stimme abgegeben!");
 			return true;
 		}
 		
 		String arenaName = args[0].toLowerCase();
-		if (!plugin.mapVoting.isMapInVoting(arenaName)) {
-			p.sendMessage(plugin.prefix + "§cDiese Map ist nicht im Voting!");
+		if (!this.plugin.mapVoting.isMapInVoting(arenaName)) {
+			p.sendMessage(this.plugin.prefix + "Â§cDiese Map ist nicht im Voting!");
 			return true;
 		}
 		
-		plugin.mapVoting.playerVote(p, arenaName);
-		p.sendMessage(plugin.prefix + "§aVielen Dank für deine Stimme!");
+		this.plugin.mapVoting.playerVote(p, arenaName);
+		p.sendMessage(this.plugin.prefix + "Â§aVielen Dank fuer deine Stimme!");
 		
 		
 		

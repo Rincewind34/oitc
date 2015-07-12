@@ -10,7 +10,6 @@ import org.bukkit.potion.PotionEffectType;
 import de.janhektor.oitc.GameUtil;
 import de.janhektor.oitc.Main;
 
-@SuppressWarnings("deprecation")
 public class RespawnListener implements Listener {
 
 	private Main plugin;
@@ -19,7 +18,6 @@ public class RespawnListener implements Listener {
 		this.plugin = plugin;
 	}
 	
-	// TODO Leben abziehen, wenn Spieler stirbt (DeathEvent) !!!
 	@EventHandler
 	public void onPlayerRespawn (PlayerRespawnEvent e) {
 		Player p = e.getPlayer();
@@ -30,11 +28,11 @@ public class RespawnListener implements Listener {
 		
 		// Give Items to player
 		p.getInventory().setItem(0, GameUtil.getBow());
-		p.getInventory().setItem(4, GameUtil.getRedstone(plugin.lives.get(p.getName())));
+		p.getInventory().setItem(4, GameUtil.getRedstone(this.plugin.lives.get(p.getName())));
 		p.getInventory().setItem(8, GameUtil.getArrow());
 		
-		p.teleport(plugin.spawnPoints.get(GameUtil.getRnd().nextInt(plugin.spawnPoints.size())));
-		p.sendMessage(plugin.prefix + "ง7Du konntest respawnen, da du noch ง3" + plugin.lives.get(p.getName()) + "ง7 Leben hast.");
+		p.teleport(this.plugin.spawnPoints.get(GameUtil.getRnd().nextInt(this.plugin.spawnPoints.size())));
+		p.sendMessage(this.plugin.prefix + "ยง7Du konntest respawnen, da du noch ยง3" + plugin.lives.get(p.getName()) + "ยง7 Leben hast.");
 		p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100, 1));
 	}
 }

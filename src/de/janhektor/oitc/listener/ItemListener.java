@@ -9,11 +9,15 @@ public class ItemListener implements Listener {
 
 	@EventHandler
 	public void onItemPickup (PlayerPickupItemEvent e) {
-		if (!e.getPlayer().isOp()) e.setCancelled(true);
+		if (!e.getPlayer().isOp()) {
+			e.setCancelled(true);
+		}
 	}
 	
 	@EventHandler
 	public void onItemDrop (PlayerDropItemEvent e) {
-		if (!e.getPlayer().isOp()) e.setCancelled(true);
+		if (!e.getPlayer().isOp()) {
+			e.setCancelled(true);
+		}
 	}
 }

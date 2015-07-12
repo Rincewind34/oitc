@@ -17,8 +17,8 @@ public class CommandOITC implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-		sender.sendMessage(plugin.prefix + "§aVersion: " + plugin.getDescription().getVersion());
-		sender.sendMessage(plugin.prefix + "§aEntwickelt von " + plugin.getDescription().getAuthors().get(0));
+		sender.sendMessage(plugin.prefix + "Â§aVersion: " + plugin.getDescription().getVersion());
+		sender.sendMessage(plugin.prefix + "Â§aEntwickelt von " + plugin.getDescription().getAuthors().get(0));
 		
 		return false;
 	}

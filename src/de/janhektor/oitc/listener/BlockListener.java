@@ -9,12 +9,16 @@ public class BlockListener implements Listener {
 
 	@EventHandler
 	public void onBlockBreak (BlockBreakEvent e) {
-		if (!e.getPlayer().isOp()) e.setCancelled(true);
+		if (!e.getPlayer().isOp()) {
+			e.setCancelled(true);
+		}
 	}
 	
 	@EventHandler
 	public void onBlockPlace (BlockPlaceEvent e) {
-		if (!e.getPlayer().isOp()) e.setCancelled(true);
+		if (!e.getPlayer().isOp()) {
+			e.setCancelled(true);
+		}
 	}
 	
 }

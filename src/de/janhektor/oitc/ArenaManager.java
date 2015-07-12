@@ -31,16 +31,16 @@ public class ArenaManager {
 	}
 	
 	public void loadDataFile() {
-		if (!cfg.isConfigurationSection("Arena.")) {
-			cfg.set("Arena." + "test", Arrays.asList("world,0,256,0"));
+		if (!this.cfg.isConfigurationSection("Arena.")) {
+			this.cfg.set("Arena." + "test", Arrays.asList("world,0,256,0"));
 			save();
 		}
-		for (String name : cfg.getConfigurationSection("Arena.").getKeys(false)) {
-			System.out.println(name);
-			List<String> spawns = cfg.getStringList("Arena." + name);
+		for (String name : this.cfg.getConfigurationSection("Arena.").getKeys(false)) {
+			List<String> spawns = this.cfg.getStringList("Arena." + name);
+			
 			Arena arena = new Arena(name);
+			
 			for (String entry : spawns) {
-				System.out.println(entry);
 				String[] data = entry.split(",");
 				World w = Bukkit.getWorld(data[0]);
 				int x = Integer.parseInt(data[1]);
@@ -48,6 +48,7 @@ public class ArenaManager {
 				int z = Integer.parseInt(data[3]);
 				arena.addSpawn(new Location(w, x, y, z));
 			}
+			
 			this.arenas.add(arena);
 		}
 	}
@@ -55,11 +56,14 @@ public class ArenaManager {
 	public void saveArenas() {
 		for (Arena arena : this.arenas) {
 			List<String> spawns = new ArrayList<String>();
+			
 			String name = arena.getName();
+			
 			for (Location loc : arena.getSpawns()) {
 				spawns.add(loc.getWorld().getName() + "," + loc.getBlockX()
 						+ "," + loc.getBlockY() + "," + loc.getBlockZ());
 			}
+			
 			this.cfg.set("Arena." + name, spawns);
 		}
 		save();
@@ -67,34 +71,41 @@ public class ArenaManager {
 	
 	public boolean isArenaExists(String name) {
 		for (Arena arena : this.arenas) {
-			if (arena.getName().equals(name)) return true;
+			if (arena.getName().equals(name)) {
+				return true;
+			}
 		}
 		return false;
 	}
 	
 	public void addSpawn(String arenaName, Location loc) {
-		if (!isArenaExists(arenaName)) return;
+		if (!isArenaExists(arenaName)) {
+			return;
+		}
+		
 		Arena arena = this.getByName(arenaName);
 		arena.addSpawn(loc);
 	}
 	
 	public Arena getByName(String name) {
 		for (Arena arena : this.arenas) {
-			if (arena.getName().equalsIgnoreCase(name)) return arena;
+			if (arena.getName().equalsIgnoreCase(name)) {
+				return arena;
+			}
 		}
 		return null;
 	}
 	
 	public List<Arena> getArenas() {
-		return arenas;
+		return this.arenas;
 	}
 	
 	public FileConfiguration getCfg() {
-		return cfg;
+		return this.cfg;
 	}
 	
 	public File getFile() {
-		return file;
+		return this.file;
 	}
 	
 	public void addArena(Arena arena) {

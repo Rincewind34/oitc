@@ -16,16 +16,15 @@ public class JoinListener implements Listener {
 		this.plugin = plugin;
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerJoin (PlayerJoinEvent e) {
 		Player p = e.getPlayer();
-		e.setJoinMessage(plugin.prefix + "§a" + p.getName() + " hat das Spiel betreten!");
+		e.setJoinMessage(plugin.prefix + "Â§a" + p.getName() + " hat das Spiel betreten!");
 		
-		if (Bukkit.getOnlinePlayers().length >= plugin.minPlayers) {
-			plugin.countdown.startLobbyCountdown();
+		if (Bukkit.getOnlinePlayers().size() >= this.plugin.minPlayers) {
+			this.plugin.countdown.startLobbyCountdown();
 		}
 		
-		p.setScoreboard(plugin.voteScoreboard);
+		p.setScoreboard(this.plugin.voteScoreboard);
 	}
 }

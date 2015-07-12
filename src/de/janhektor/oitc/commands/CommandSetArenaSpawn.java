@@ -23,23 +23,25 @@ public class CommandSetArenaSpawn implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender cs, Command cmd, String label, String[] args) {
 		if (!(cs instanceof Player)) {
-			cs.sendMessage(plugin.prefix + "§cDu musst ein Spieler sein.");
+			cs.sendMessage(this.plugin.prefix + "Â§cDu musst ein Spieler sein.");
 			return true;
 		}
 		Player p = (Player) cs;
 		
 		if (args.length != 1) {
-			p.sendMessage(plugin.prefix + "§cSyntax: /setarenaspawn <name>");
+			p.sendMessage(this.plugin.prefix + "Â§cSyntax: /setarenaspawn <name>");
 			return true;
 		}
 		
 		String arena = args[0].toLowerCase();
-		if (!plugin.arenaManager.isArenaExists(arena)) {
-			plugin.arenaManager.addArena(new Arena(arena));
-			p.sendMessage(plugin.prefix + "§aDie Arena " + arena + " existierte noch nicht und wurde soeben erstellt.");
+		
+		if (!this.plugin.arenaManager.isArenaExists(arena)) {
+			this.plugin.arenaManager.addArena(new Arena(arena));
+			p.sendMessage(plugin.prefix + "Â§aDie Arena " + arena + " existierte noch nicht und wurde soeben erstellt.");
 		}
-		plugin.arenaManager.addSpawn(arena, p.getLocation());
-		p.sendMessage(plugin.prefix + "§aEin Spawn-Punkt in Arena " + arena + " wurde erfolgreich gesetzt.");
+		
+		this.plugin.arenaManager.addSpawn(arena, p.getLocation());
+		p.sendMessage(this.plugin.prefix + "Â§aEin Spawn-Punkt in Arena " + arena + " wurde erfolgreich gesetzt.");
 		
 		return false;
 	}

@@ -16,22 +16,21 @@ public class ServerPingListener implements Listener {
 		this.plugin = plugin;
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onServerPing (ServerListPingEvent e) {
 		e.setMaxPlayers(plugin.maxPlayers);
-		if (!plugin.ingame && Bukkit.getOnlinePlayers().length < plugin.maxPlayers) {
-			e.setMotd(plugin.motds[0]);
+		if (!this.plugin.ingame && Bukkit.getOnlinePlayers().size() < plugin.maxPlayers) {
+			e.setMotd(this.plugin.motds[0]);
 			return;
 		}
 		
-		if (!plugin.ingame && Bukkit.getOnlinePlayers().length >= plugin.maxPlayers) {
-			e.setMotd(plugin.motds[1]);
+		if (!this.plugin.ingame && Bukkit.getOnlinePlayers().size() >= plugin.maxPlayers) {
+			e.setMotd(this.plugin.motds[1]);
 			return;
 		}
 		
-		if (plugin.ingame) {
-			e.setMotd(plugin.motds[2]);
+		if (this.plugin.ingame) {
+			e.setMotd(this.plugin.motds[2]);
 		}
 	}
 }

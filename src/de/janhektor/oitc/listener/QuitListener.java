@@ -18,6 +18,6 @@ public class QuitListener implements Listener {
 	@EventHandler
 	public void onPlayerQuit (PlayerQuitEvent e) {
 		Player p = e.getPlayer();
-		e.setQuitMessage(plugin.prefix + "§a" + p.getName() + " hat das Spiel verlassen!");
+		e.setQuitMessage(this.plugin.prefix + "Â§a" + p.getName() + " hat das Spiel verlassen!");
 	}
 }

@@ -15,49 +15,49 @@ public class Countdown {
 	
 	@SuppressWarnings("deprecation")
 	public void startLobbyCountdown() {
-		this.taskid1 = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, new Runnable() {
+		this.taskid1 = Bukkit.getScheduler().scheduleAsyncRepeatingTask(this.plugin, new Runnable() {
 			
 					@Override
 					public void run() {
-						if (plugin.lobbyTime == 60 || plugin.lobbyTime == 30
-								|| plugin.lobbyTime == 15
-								|| plugin.lobbyTime == 10
-								|| plugin.lobbyTime == 5
-								|| plugin.lobbyTime == 4
-								|| plugin.lobbyTime == 3
-								|| plugin.lobbyTime == 2
-								|| plugin.lobbyTime == 1) {
+						if (Countdown.this.plugin.lobbyTime == 60 || Countdown.this.plugin.lobbyTime == 30
+								|| Countdown.this.plugin.lobbyTime == 15
+								|| Countdown.this.plugin.lobbyTime == 10
+								|| Countdown.this.plugin.lobbyTime == 5
+								|| Countdown.this.plugin.lobbyTime == 4
+								|| Countdown.this.plugin.lobbyTime == 3
+								|| Countdown.this.plugin.lobbyTime == 2
+								|| Countdown.this.plugin.lobbyTime == 1) {
 
 							Bukkit.broadcastMessage(plugin.prefix
-									+ "§aDas Spiel startet in "
-									+ plugin.lobbyTime
+									+ "Â§aDas Spiel startet in "
+									+ Countdown.this.plugin.lobbyTime
 									+ " "
-									+ (plugin.lobbyTime == 1 ? "Sekunde"
+									+ (Countdown.this.plugin.lobbyTime == 1 ? "Sekunde"
 											: "Sekunden"));
 							
-							if (plugin.lobbyTime == 10) {
-								plugin.mapVoting.endVoting();
+							if (Countdown.this.plugin.lobbyTime == 10) {
+								Countdown.this.plugin.mapVoting.endVoting();
 							}
 						}
 						
 						for (Player p : Bukkit.getOnlinePlayers()) {
-							p.setLevel(plugin.lobbyTime);
-							p.setExp((float) plugin.lobbyTime / (float) plugin.maxLobbyTime); 
+							p.setLevel(Countdown.this.plugin.lobbyTime);
+							p.setExp((float) Countdown.this.plugin.lobbyTime / (float) Countdown.this.plugin.maxLobbyTime); 
 						}
 						
-						if (plugin.lobbyTime <= 0) {
-							if (Bukkit.getOnlinePlayers().length >= plugin.minPlayers) {
+						if (Countdown.this.plugin.lobbyTime <= 0) {
+							if (Bukkit.getOnlinePlayers().size() >= Countdown.this.plugin.minPlayers) {
 								
 								Bukkit.getScheduler().cancelTask(taskid1);
-								GameUtil.startGame(plugin);
+								GameUtil.startGame(Countdown.this.plugin);
 								return;
 								
 							} else {
-								plugin.lobbyTime = plugin.maxLobbyTime;
+								Countdown.this.plugin.lobbyTime = Countdown.this.plugin.maxLobbyTime;
 							}
 						}
 
-						plugin.lobbyTime--;
+						Countdown.this.plugin.lobbyTime--;
 					}
 			
 		}, 0L, 20L);

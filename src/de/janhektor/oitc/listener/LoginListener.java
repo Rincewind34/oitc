@@ -17,13 +17,12 @@ public class LoginListener implements Listener {
 		this.plugin = plugin;
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerLogin (PlayerLoginEvent e) {
 		Player p = e.getPlayer();
-		if (Bukkit.getOnlinePlayers().length >= plugin.maxPlayers) {
+		if (Bukkit.getOnlinePlayers().size() >= plugin.maxPlayers) {
 			if (!p.hasPermission(plugin.adminPermission)) {
-				e.disallow(Result.KICK_FULL, plugin.prefix + "§cDieses Spiel ist voll!");
+				e.disallow(Result.KICK_FULL, plugin.prefix + "Â§cDieses Spiel ist voll!");
 			} else {
 				e.allow();
 			}
