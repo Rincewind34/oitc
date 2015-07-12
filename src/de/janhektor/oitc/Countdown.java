@@ -28,12 +28,9 @@ public class Countdown {
 								|| Countdown.this.plugin.lobbyTime == 2
 								|| Countdown.this.plugin.lobbyTime == 1) {
 
-							Bukkit.broadcastMessage(plugin.prefix
-									+ "§aDas Spiel startet in "
-									+ Countdown.this.plugin.lobbyTime
-									+ " "
-									+ (Countdown.this.plugin.lobbyTime == 1 ? "Sekunde"
-											: "Sekunden"));
+							Bukkit.broadcastMessage(Countdown.this.plugin.prefix + "§aDas Spiel startet in "
+									+ Countdown.this.plugin.lobbyTime + " "
+									+ (Countdown.this.plugin.lobbyTime == 1 ? "Sekunde" : "Sekunden"));
 							
 							if (Countdown.this.plugin.lobbyTime == 10) {
 								Countdown.this.plugin.mapVoting.endVoting();

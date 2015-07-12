@@ -22,7 +22,12 @@ public class DeathListener implements Listener {
 	@EventHandler
 	public void onPlayerDeath (PlayerDeathEvent e) {
 		Player p = e.getEntity();	
-		if (!this.plugin.ingame) return;
+		if (!this.plugin.ingame) {
+			return;
+		}
+		
+		e.getDrops().clear();
+		
 		if (this.plugin.lives.containsKey(p.getName())) {
 			int lives = plugin.lives.get(p.getName());
 			if (lives <= 1) {

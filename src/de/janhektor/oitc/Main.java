@@ -25,7 +25,6 @@ import de.janhektor.oitc.listener.ServerPingListener;
 
 public class Main extends JavaPlugin {
 
-	
 	public int minPlayers;
 	public int maxPlayers;
 	
@@ -108,15 +107,15 @@ public class Main extends JavaPlugin {
 	
 	private void loadConfigData() {
 		FileConfiguration cfg = getConfig();
-		this.prefix = cfg.getString("Prefix").replace("&", "ง") + "งr ";
+		this.prefix = cfg.getString("Prefix").replace("&", "ยง") + "ยงr ";
 		this.minPlayers = cfg.getInt("MinPlayers");
 		this.maxPlayers = cfg.getInt("MaxPlayers");
 		this.lobbyTime = cfg.getInt("LobbyTime");
 		this.maxLobbyTime = cfg.getInt("LobbyTime");
 		this.adminPermission = cfg.getString("AdminPermission");
-		this.motds[0] = cfg.getString("Motd.Lobby").replace("&", "ง");
-		this.motds[1] = cfg.getString("Motd.Full").replace("&", "ง");
-		this.motds[2] = cfg.getString("Motd.Ingame").replace("&" , "ง");
+		this.motds[0] = cfg.getString("Motd.Lobby").replace("&", "ยง");
+		this.motds[1] = cfg.getString("Motd.Full").replace("&", "ยง");
+		this.motds[2] = cfg.getString("Motd.Ingame").replace("&" , "ยง");
 		this.arrayTrail = cfg.getBoolean("ArrowTrail");
 		this.maxLives = cfg.getInt("Lives");
 	}

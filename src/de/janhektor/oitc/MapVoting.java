@@ -73,7 +73,7 @@ public class MapVoting {
 			obj = this.plugin.voteScoreboard.getObjective("mapvoting");
 		}
 		
-		obj.setDisplayName("§�6Arena Voting");
+		obj.setDisplayName("§6Arena Voting");
 		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		for (String arenaName : this.arenas.keySet()) {
 			obj.getScore(arenaName).setScore(0);
