@@ -26,12 +26,12 @@ public class DeathListener implements Listener {
 		
 		event.getDrops().clear();
 		
-		if (this.plugin.lives.containsKey(player.getName())) {
-			int lives = plugin.lives.get(player.getName());
+		if (this.plugin.getLives().containsKey(player.getName())) {
+			int lives = plugin.getLives().get(player.getName());
 			if (lives <= 1) {
 				player.kickPlayer("§cDu hast keine Leben mehr!");
 			} else {
-				this.plugin.lives.put(player.getName(), lives - 1);
+				this.plugin.getLives().put(player.getName(), lives - 1);
 			}
 		}
 		

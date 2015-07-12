@@ -14,19 +14,19 @@ public class ServerPingListener implements Listener {
 	
 	@EventHandler
 	public void onServerPing (ServerListPingEvent e) {
-		e.setMaxPlayers(plugin.maxPlayers);
-		if (!this.plugin.ingame && Bukkit.getOnlinePlayers().size() < plugin.maxPlayers) {
-			e.setMotd(this.plugin.motds[0]);
+		e.setMaxPlayers(plugin.getMaxPlayers());
+		if (!this.plugin.ingame && Bukkit.getOnlinePlayers().size() < plugin.getMaxPlayers()) {
+			e.setMotd(this.plugin.getMotds()[0]);
 			return;
 		}
 		
-		if (!this.plugin.ingame && Bukkit.getOnlinePlayers().size() >= plugin.maxPlayers) {
-			e.setMotd(this.plugin.motds[1]);
+		if (!this.plugin.ingame && Bukkit.getOnlinePlayers().size() >= plugin.getMaxPlayers()) {
+			e.setMotd(this.plugin.getMotds()[1]);
 			return;
 		}
 		
 		if (this.plugin.ingame) {
-			e.setMotd(this.plugin.motds[2]);
+			e.setMotd(this.plugin.getMotds()[2]);
 		}
 	}
 }

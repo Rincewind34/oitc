@@ -42,12 +42,12 @@ public class ArgumentSetArenaSpawn extends Argument<Main> {
 		
 		String arena = args[1].toLowerCase();
 		
-		if (!super.plugin.arenaManager.isArenaExists(arena)) {
-			super.plugin.arenaManager.addArena(new Arena(arena));
+		if (!super.plugin.getArenaManager().isArenaExists(arena)) {
+			super.plugin.getArenaManager().addArena(new Arena(arena));
 			player.sendMessage(layout.prefix + layout.clPos + "Die Arena " + arena + " existierte noch nicht und wurde soeben erstellt.");
 		}
 		
-		this.plugin.arenaManager.addSpawn(arena, player.getLocation());
+		this.plugin.getArenaManager().addSpawn(arena, player.getLocation());
 		player.sendMessage(layout.prefix + layout.clPos + "Ein Spawn-Punkt in Arena " + arena + " wurde erfolgreich gesetzt.");
 		
 		return true;

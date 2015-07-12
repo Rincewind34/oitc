@@ -39,18 +39,18 @@ public class CommandVote extends BasicCommand implements DefaultExecutor {
 		if (args.length == 1) {
 			Player p = (Player) sender;
 			
-			if (this.plugin.mapVoting.hasVoted(p)) {
+			if (this.plugin.getMapVoting().hasVoted(p)) {
 				p.sendMessage(layout.prefix + layout.clNeg + "Du hast bereits eine Stimme abgegeben!");
 				return true;
 			}
 			
 			String arenaName = args[0].toLowerCase();
-			if (!this.plugin.mapVoting.isMapInVoting(arenaName)) {
+			if (!this.plugin.getMapVoting().isMapInVoting(arenaName)) {
 				p.sendMessage(layout.prefix + layout.clNeg + "Diese Map ist nicht im Voting!");
 				return true;
 			}
 			
-			this.plugin.mapVoting.playerVote(p, arenaName);
+			this.plugin.getMapVoting().playerVote(p, arenaName);
 			p.sendMessage(layout.prefix + layout.clNeg + "Vielen Dank fuer deine Stimme!");
 			
 			return true;
@@ -60,7 +60,7 @@ public class CommandVote extends BasicCommand implements DefaultExecutor {
 			layout.addComent(" - " + this.getDescription(), false);
 			layout.newCategory("Maps zum voten");
 			
-			for (String arena : Main.getInstance().mapVoting.getArenas().keySet()) {
+			for (String arena : Main.getInstance().getMapVoting().getArenas().keySet()) {
 				layout.addComent(arena, false);
 			}
 			

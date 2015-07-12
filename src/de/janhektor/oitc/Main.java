@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 
+import de.janhektor.listener.bundle.ListenerHandler;
 import de.janhektor.oitc.commands.CommandOITC;
 import de.janhektor.oitc.commands.CommandVote;
 import de.janhektor.oitc.listener.BlockListener;
@@ -32,29 +33,28 @@ public class Main extends JavaPlugin {
 		return Main.instance;
 	}
 	
-	public int minPlayers;
-	public int maxPlayers;
+	private int minPlayers;
+	private int maxPlayers;
 	
-	public int lobbyTime;
-	public int maxLobbyTime;
+	private int lobbyTime;
+	private int maxLives;
 	
-	public int maxLives;
+	private String adminPermission;
+	private String[] motds = new String[3]; // 0 = Lobby, 1 = Full, 2 = InGame
 	
-	public String adminPermission;
-	public String[] motds = new String[3]; // 0 = Lobby, 1 = Full, 2 = InGame
+	private List<Location> spawnPoints = new ArrayList<Location>();
 	
-	public List<Location> spawnPoints = new ArrayList<Location>();
+	private Map<String, Integer> lives = new HashMap<String, Integer>();
 	
-	public Map<String, Integer> lives = new HashMap<String, Integer>();
-	
-	public ArenaManager arenaManager;
-	public MapVoting mapVoting;
-	public Scoreboard voteScoreboard;
+	private ArenaManager arenaManager;
+	private MapVoting mapVoting;
+	private Scoreboard voteScoreboard;
 	
 	public boolean ingame = false;
-	public boolean arrayTrail;
 	
 	private InfoLayout layout;
+	
+	public ListenerHandler handler;
 	
 	@Override
 	public void onLoad() {
@@ -64,16 +64,32 @@ public class Main extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
-		super.getServer().getPluginManager().registerEvents(new JoinListener(), this);
-		super.getServer().getPluginManager().registerEvents(new QuitListener(), this);
-		super.getServer().getPluginManager().registerEvents(new LoginListener(), this);
-		super.getServer().getPluginManager().registerEvents(new ServerPingListener(), this);
-		super.getServer().getPluginManager().registerEvents(new RespawnListener(), this);
-		super.getServer().getPluginManager().registerEvents(new DeathListener(), this);
-		super.getServer().getPluginManager().registerEvents(new BlockListener(), this);
-		super.getServer().getPluginManager().registerEvents(new FoodListener(), this);
-		super.getServer().getPluginManager().registerEvents(new ItemListener(), this);
-		super.getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
+		ListenerHandler handler = new ListenerHandler();
+		handler.add(new JoinListener());
+		handler.add(new QuitListener());
+		handler.add(new LoginListener());
+		handler.add(new ServerPingListener());
+		handler.add(new RespawnListener());
+		handler.add(new DeathListener());
+		handler.add(new BlockListener());
+		handler.add(new FoodListener());
+		handler.add(new ItemListener());
+		handler.add(new EntityDamageByEntityListener());
+		handler.create();
+		handler.register("game");
+		
+		this.handler = handler;
+		
+//		super.getServer().getPluginManager().registerEvents(new JoinListener(), this);
+//		super.getServer().getPluginManager().registerEvents(new QuitListener(), this);
+//		super.getServer().getPluginManager().registerEvents(new LoginListener(), this);
+//		super.getServer().getPluginManager().registerEvents(new ServerPingListener(), this);
+//		super.getServer().getPluginManager().registerEvents(new RespawnListener(), this);
+//		super.getServer().getPluginManager().registerEvents(new DeathListener(), this);
+//		super.getServer().getPluginManager().registerEvents(new BlockListener(), this);
+//		super.getServer().getPluginManager().registerEvents(new FoodListener(), this);
+//		super.getServer().getPluginManager().registerEvents(new ItemListener(), this);
+//		super.getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
 		
 		this.initConfig();
 		this.loadConfigData();
@@ -94,9 +110,6 @@ public class Main extends JavaPlugin {
 		Bukkit.getConsoleSender().sendMessage(this.layout.prefix + layout.clNeg + "Plugin deaktiviert - Developed by Janhektor");
 	}
 	
-	
-	
-	
 	private void initConfig() {
 		FileConfiguration cfg = getConfig();
 		cfg.addDefault("MinPlayers", 2);
@@ -107,7 +120,6 @@ public class Main extends JavaPlugin {
 		cfg.addDefault("Motd.Lobby", "&aLobby");
 		cfg.addDefault("Motd.Full", "&cFull");
 		cfg.addDefault("Motd.Ingame", "&cInGame");
-		cfg.addDefault("ArrowTrail", true);
 		cfg.options().copyDefaults(true);
 		saveConfig();
 	}
@@ -117,12 +129,62 @@ public class Main extends JavaPlugin {
 		this.minPlayers = cfg.getInt("MinPlayers");
 		this.maxPlayers = cfg.getInt("MaxPlayers");
 		this.lobbyTime = cfg.getInt("LobbyTime");
-		this.maxLobbyTime = cfg.getInt("LobbyTime");
 		this.adminPermission = cfg.getString("AdminPermission");
 		this.motds[0] = cfg.getString("Motd.Lobby").replace("&", "§");
 		this.motds[1] = cfg.getString("Motd.Full").replace("&", "§");
 		this.motds[2] = cfg.getString("Motd.Ingame").replace("&" , "§");
-		this.arrayTrail = cfg.getBoolean("ArrowTrail");
 		this.maxLives = cfg.getInt("Lives");
+	}
+	
+	public ArenaManager getArenaManager() {
+		return this.arenaManager;
+	}
+	
+	public MapVoting getMapVoting() {
+		return this.mapVoting;
+	}
+	
+	public Scoreboard getVoteScoreboard() {
+		return this.voteScoreboard;
+	}
+	
+	public void setVoteScoreboard(Scoreboard voteScoreboard) {
+		this.voteScoreboard = voteScoreboard;
+	}
+	
+	public int getMinPlayers() {
+		return this.minPlayers;
+	}
+	
+	public int getMaxPlayers() {
+		return this.maxPlayers;
+	}
+	
+	public Map<String, Integer> getLives() {
+		return this.lives;
+	}
+	
+	public String[] getMotds() {
+		return this.motds;
+	}
+	
+	public List<Location> getSpawnPoints() {
+		return this.spawnPoints;
+	}
+	
+	public void setSpawnPoints(List<Location> spawnPoints) {
+		this.spawnPoints = spawnPoints;
+	}
+	
+	public String getAdminPermission() {
+		return this.adminPermission;
+	}
+	
+	public int getLobbyTime() {
+		return this.lobbyTime;
+	}
+	
+	public int getMaxLives() {
+		return this.maxLives;
 	}
 }

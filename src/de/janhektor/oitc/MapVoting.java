@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 
 public class MapVoting {
 
@@ -37,12 +38,12 @@ public class MapVoting {
 		
 		this.arenas.put(arena, arenas.get(arena) + 1);
 		this.voted.add(p.getName());
-		this.plugin.voteScoreboard
+		this.plugin.getVoteScoreboard()
 				.getObjective(DisplaySlot.SIDEBAR)
 				.getScore(arena)
-				.setScore(this.plugin.voteScoreboard.getObjective(DisplaySlot.SIDEBAR).getScore(arena).getScore() + 1);
+				.setScore(this.plugin.getVoteScoreboard().getObjective(DisplaySlot.SIDEBAR).getScore(arena).getScore() + 1);
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			player.setScoreboard(this.plugin.voteScoreboard);
+			player.setScoreboard(this.plugin.getVoteScoreboard());
 		}
 	}
 	
@@ -67,12 +68,12 @@ public class MapVoting {
 	}
 	
 	private void initVoting() {
-		this.plugin.voteScoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+		Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
 		
-		Objective obj = this.plugin.voteScoreboard.getObjective("mapvoting");
+		Objective obj = scoreboard.getObjective("mapvoting");
 		
 		if (obj == null) {
-			obj = this.plugin.voteScoreboard.registerNewObjective("mapvoting", "dummy");
+			obj = scoreboard.registerNewObjective("mapvoting", "dummy");
 		}
 		
 		obj.setDisplayName("§6Arena Voting");
@@ -82,6 +83,7 @@ public class MapVoting {
 			obj.getScore(arenaName).setScore(0);
 		}
 		
+		this.plugin.setVoteScoreboard(scoreboard);
 		this.running = true;
 	}
 	
@@ -89,13 +91,13 @@ public class MapVoting {
 		this.running = false;
 		
 		String bestArena = this.getBestArena();
-		Arena arena = this.plugin.arenaManager.getByName(bestArena);
+		Arena arena = this.plugin.getArenaManager().getByName(bestArena);
 		
 		if (arena == null) {
-			arena = this.plugin.arenaManager.getArenas().get(0);
+			arena = this.plugin.getArenaManager().getArenas().get(0);
 		}
 		
-		this.plugin.spawnPoints = arena.getSpawns();
+		this.plugin.setSpawnPoints(arena.getSpawns());
 		GameUtil.endMapVoting(this.plugin, bestArena, this.arenas.get(bestArena));
 	}
 	
@@ -104,6 +106,6 @@ public class MapVoting {
 	}
 	
 	public Map<String, Integer> getArenas() {
-		return arenas;
+		return this.arenas;
 	}
 }

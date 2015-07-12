@@ -30,10 +30,10 @@ public class GameUtil {
 			p.setFoodLevel(20);
 			p.setFireTicks(0);
 			p.getInventory().setItem(8, getArrow());
-			p.getInventory().setItem(4, getRedstone(plugin.maxLives));
+			p.getInventory().setItem(4, getRedstone(plugin.getMaxLives()));
 			p.getInventory().setItem(0, getBow());
-			p.teleport(plugin.spawnPoints.get(rnd.nextInt(plugin.spawnPoints.size())));
-			plugin.lives.put(p.getName(), plugin.maxLives);
+			p.teleport(plugin.getSpawnPoints().get(rnd.nextInt(plugin.getSpawnPoints().size())));
+			plugin.getLives().put(p.getName(), plugin.getMaxLives());
 		}
 		
 		plugin.ingame = true;

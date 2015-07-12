@@ -1,24 +1,38 @@
 package de.janhektor.oitc.listener;
 
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 
-public class BlockListener implements Listener {
+import de.janhektor.listener.bundle.DefaultListener;
+import de.janhektor.listener.bundle.ListenerBundle;
 
-	@EventHandler
-	public void onBlockBreak (BlockBreakEvent e) {
+public class BlockListener extends DefaultListener<BlockBreakEvent> {
+
+	public BlockListener() {
+		super(BlockListener.class, new BlockBreakEvent(null, null));
+	}
+
+	@ListenerBundle(name = "game")
+	public void onGame(BlockBreakEvent e) {
 		if (!e.getPlayer().isOp()) {
 			e.setCancelled(true);
 		}
+		System.out.println("HIIIIIIIIIIIIIIIII");
 	}
 	
-	@EventHandler
-	public void onBlockPlace (BlockPlaceEvent e) {
+	@ListenerBundle(name = "game2")
+	public void onGame2(BlockBreakEvent e) {
 		if (!e.getPlayer().isOp()) {
 			e.setCancelled(true);
 		}
+		
+		System.out.println("YEAAAAAAAAAAAAAAAAAAAAAAAAA");
 	}
+	
+//	@EventHandler
+//	public void onBlockPlace(BlockPlaceEvent e) {
+//		if (!e.getPlayer().isOp()) {
+//			e.setCancelled(true);
+//		}
+//	}
 	
 }

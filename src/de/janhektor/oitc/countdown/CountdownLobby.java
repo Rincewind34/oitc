@@ -24,17 +24,17 @@ public class CountdownLobby extends AbstractCountdown implements CountdownListen
 	}
 
 	private CountdownLobby() {
-		super(Main.getInstance(), Main.getInstance().lobbyTime);
+		super(Main.getInstance(), Main.getInstance().getLobbyTime());
 		super.addHandler(this);
 	}
 
 	@Override
 	public void onAnnounceTime() {
 		Bukkit.broadcastMessage(CountdownLobby.layout.prefix + CountdownLobby.layout.clPos + "Das Spiel startet in " + super.secondsLeft + " "
-				+ (super.secondsLeft == 1 ? "Sekunde" : "Sekunden"));
+				+ (super.secondsLeft == 1 ? "Sekunde" : "Sekunden") + "!");
 		
-		if (super.secondsLeft <= 10 && super.plugin.mapVoting.isRunning()) {
-			super.plugin.mapVoting.endVoting();
+		if (super.secondsLeft <= 10 && super.plugin.getMapVoting().isRunning()) {
+			super.plugin.getMapVoting().endVoting();
 		}
 	}
 
@@ -55,7 +55,7 @@ public class CountdownLobby extends AbstractCountdown implements CountdownListen
 
 	@Override
 	public void onEnd() {
-		if (Bukkit.getOnlinePlayers().size() >= super.plugin.minPlayers) {
+		if (Bukkit.getOnlinePlayers().size() >= super.plugin.getMinPlayers()) {
 			GameUtil.startGame(super.plugin);
 		} else {
 			super.start();

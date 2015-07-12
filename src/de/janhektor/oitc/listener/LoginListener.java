@@ -19,8 +19,8 @@ public class LoginListener implements Listener {
 		InfoLayout layout = new InfoLayout("OITC");
 		Player player = event.getPlayer();
 		
-		if (Bukkit.getOnlinePlayers().size() >= this.plugin.maxPlayers) {
-			if (!player.hasPermission(this.plugin.adminPermission)) {
+		if (Bukkit.getOnlinePlayers().size() >= this.plugin.getMaxPlayers()) {
+			if (!player.hasPermission(this.plugin.getAdminPermission())) {
 				event.disallow(Result.KICK_FULL, layout.prefix + layout.clNeg + "§cDieses Spiel ist voll!");
 			} else {
 				event.allow();

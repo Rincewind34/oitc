@@ -22,13 +22,13 @@ public class JoinListener implements Listener {
 		
 		event.setJoinMessage(layout.prefix + layout.clPos + player.getName() + " hat das Spiel betreten!");
 		
-		if (Bukkit.getOnlinePlayers().size() >= this.plugin.minPlayers) {
+		if (Bukkit.getOnlinePlayers().size() >= this.plugin.getMinPlayers()) {
 			Countdown countdown = CountdownLobby.getInstance();
 			if (!countdown.isRunning()) {
 				countdown.start();
 			}
 		}
 		
-		player.setScoreboard(this.plugin.voteScoreboard);
+		player.setScoreboard(this.plugin.getVoteScoreboard());
 	}
 }

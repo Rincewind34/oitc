@@ -25,11 +25,11 @@ public class RespawnListener implements Listener {
 		player.setFireTicks(0);
 		
 		player.getInventory().setItem(0, GameUtil.getBow());
-		player.getInventory().setItem(4, GameUtil.getRedstone(this.plugin.lives.get(player.getName())));
+		player.getInventory().setItem(4, GameUtil.getRedstone(this.plugin.getLives().get(player.getName())));
 		player.getInventory().setItem(8, GameUtil.getArrow());
 		
-		player.teleport(this.plugin.spawnPoints.get(GameUtil.getRnd().nextInt(this.plugin.spawnPoints.size())));
-		player.sendMessage(layout.prefix + layout.clSec + "Du konntest respawnen, da du noch " + layout.clHiLi + plugin.lives.get(player.getName())
+		player.teleport(this.plugin.getSpawnPoints().get(GameUtil.getRnd().nextInt(this.plugin.getSpawnPoints().size())));
+		player.sendMessage(layout.prefix + layout.clSec + "Du konntest respawnen, da du noch " + layout.clHiLi + plugin.getLives().get(player.getName())
 				+ layout.clSec + " Leben hast.");
 		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100, 1));
 	}
