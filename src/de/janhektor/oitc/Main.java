@@ -11,7 +11,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 
 import de.janhektor.oitc.commands.CommandOITC;
-import de.janhektor.oitc.commands.CommandSetArenaSpawn;
 import de.janhektor.oitc.commands.CommandVote;
 import de.janhektor.oitc.listener.BlockListener;
 import de.janhektor.oitc.listener.DeathListener;
@@ -73,7 +72,6 @@ public class Main extends JavaPlugin {
 		super.getServer().getPluginManager().registerEvents(new ItemListener(), this);
 		super.getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
 		
-		super.getCommand("setarenaspawn").setExecutor(new CommandSetArenaSpawn(this));
 		super.getCommand("vote").setExecutor(new CommandVote(this));
 		
 		this.initConfig();

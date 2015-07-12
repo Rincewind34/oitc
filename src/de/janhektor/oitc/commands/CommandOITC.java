@@ -20,10 +20,11 @@ public class CommandOITC extends BasicCommand implements DefaultExecutor {
 		
 		super.setAliases("oneinthechamber");
 		super.setDefaultExecutor(this);
-		super.setDescription("Displays a simple info abount the plugin.");
+		super.setDescription("Displays a simple info about the plugin.");
 		super.setPermission(null);
 		super.setUsage("/oitc");
 		super.setSettings(settings);
+		super.registerArgument("setarenaspawn", new ArgumentSetArenaSpawn(this.plugin));
 	}
 
 	@Override
