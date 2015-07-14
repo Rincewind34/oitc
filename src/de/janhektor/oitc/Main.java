@@ -14,16 +14,17 @@ import org.bukkit.scoreboard.Scoreboard;
 import de.janhektor.listener.bundle.ListenerHandler;
 import de.janhektor.oitc.commands.CommandOITC;
 import de.janhektor.oitc.commands.CommandVote;
-import de.janhektor.oitc.listener.BlockListener;
-import de.janhektor.oitc.listener.DeathListener;
-import de.janhektor.oitc.listener.EntityDamageByEntityListener;
-import de.janhektor.oitc.listener.FoodListener;
-import de.janhektor.oitc.listener.ItemListener;
-import de.janhektor.oitc.listener.JoinListener;
-import de.janhektor.oitc.listener.LoginListener;
-import de.janhektor.oitc.listener.QuitListener;
-import de.janhektor.oitc.listener.RespawnListener;
-import de.janhektor.oitc.listener.ServerPingListener;
+import de.janhektor.oitc.listener.ListenerBlockBreak;
+import de.janhektor.oitc.listener.ListenerBlockPlace;
+import de.janhektor.oitc.listener.ListenerDeath;
+import de.janhektor.oitc.listener.ListenerEntityDamageByEntity;
+import de.janhektor.oitc.listener.ListenerFood;
+import de.janhektor.oitc.listener.ListenerJoin;
+import de.janhektor.oitc.listener.ListenerLogin;
+import de.janhektor.oitc.listener.ListenerPickupItem;
+import de.janhektor.oitc.listener.ListenerQuit;
+import de.janhektor.oitc.listener.ListenerRespawn;
+import de.janhektor.oitc.listener.ListenerServerPing;
 
 public class Main extends JavaPlugin {
 
@@ -50,11 +51,11 @@ public class Main extends JavaPlugin {
 	private MapVoting mapVoting;
 	private Scoreboard voteScoreboard;
 	
-	public boolean ingame = false;
+	private boolean ingame = false;
 	
 	private InfoLayout layout;
 	
-	public ListenerHandler handler;
+	private ListenerHandler handler;
 	
 	@Override
 	public void onLoad() {
@@ -65,31 +66,22 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		ListenerHandler handler = new ListenerHandler();
-		handler.add(new JoinListener());
-		handler.add(new QuitListener());
-		handler.add(new LoginListener());
-		handler.add(new ServerPingListener());
-		handler.add(new RespawnListener());
-		handler.add(new DeathListener());
-		handler.add(new BlockListener());
-		handler.add(new FoodListener());
-		handler.add(new ItemListener());
-		handler.add(new EntityDamageByEntityListener());
+		handler.add(new ListenerBlockBreak());
+		handler.add(new ListenerBlockPlace());
+		handler.add(new ListenerDeath());
+		handler.add(new ListenerEntityDamageByEntity());
+		handler.add(new ListenerFood());
+		handler.add(new ListenerJoin());
+		handler.add(new ListenerLogin());
+		handler.add(new ListenerPickupItem());
+		handler.add(new ListenerQuit());
+		handler.add(new ListenerRespawn());
+		handler.add(new ListenerServerPing());
 		handler.create();
-		handler.register("game");
+		handler.register(GameState.LOBBY.bundleName());
+		handler.register("bundle.all");
 		
 		this.handler = handler;
-		
-//		super.getServer().getPluginManager().registerEvents(new JoinListener(), this);
-//		super.getServer().getPluginManager().registerEvents(new QuitListener(), this);
-//		super.getServer().getPluginManager().registerEvents(new LoginListener(), this);
-//		super.getServer().getPluginManager().registerEvents(new ServerPingListener(), this);
-//		super.getServer().getPluginManager().registerEvents(new RespawnListener(), this);
-//		super.getServer().getPluginManager().registerEvents(new DeathListener(), this);
-//		super.getServer().getPluginManager().registerEvents(new BlockListener(), this);
-//		super.getServer().getPluginManager().registerEvents(new FoodListener(), this);
-//		super.getServer().getPluginManager().registerEvents(new ItemListener(), this);
-//		super.getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
 		
 		this.initConfig();
 		this.loadConfigData();
@@ -186,5 +178,17 @@ public class Main extends JavaPlugin {
 	
 	public int getMaxLives() {
 		return this.maxLives;
+	}
+	
+	public boolean isIngame() {
+		return this.ingame;
+	}
+	
+	public void setIngame(boolean ingame) {
+		this.ingame = ingame;
+	}
+	
+	public ListenerHandler getHandler() {
+		return this.handler;
 	}
 }

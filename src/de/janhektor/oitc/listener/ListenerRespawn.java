@@ -1,22 +1,26 @@
 package de.janhektor.oitc.listener;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import de.janhektor.listener.bundle.DefaultListener;
+import de.janhektor.listener.bundle.ListenerBundle;
 import de.janhektor.oitc.GameUtil;
 import de.janhektor.oitc.InfoLayout;
 import de.janhektor.oitc.Main;
 
-public class RespawnListener implements Listener {
+public class ListenerRespawn extends DefaultListener {
 
-	private Main plugin = Main.getInstance();
+	public ListenerRespawn() {
+		super(ListenerRespawn.class, PlayerRespawnEvent.getHandlerList());
+	}
+
+	private static Main plugin = Main.getInstance();
 	
-	@EventHandler
-	public void onPlayerRespawn (PlayerRespawnEvent event) {
+	@ListenerBundle(name = "bundle.game")
+	private static void onPlayerRespawn(PlayerRespawnEvent event) {
 		InfoLayout layout = new InfoLayout("OITC");
 		Player player = event.getPlayer();
 		player.getInventory().clear();
@@ -25,10 +29,10 @@ public class RespawnListener implements Listener {
 		player.setFireTicks(0);
 		
 		player.getInventory().setItem(0, GameUtil.getBow());
-		player.getInventory().setItem(4, GameUtil.getRedstone(this.plugin.getLives().get(player.getName())));
+		player.getInventory().setItem(4, GameUtil.getRedstone(ListenerRespawn.plugin.getLives().get(player.getName())));
 		player.getInventory().setItem(8, GameUtil.getArrow());
 		
-		player.teleport(this.plugin.getSpawnPoints().get(GameUtil.getRnd().nextInt(this.plugin.getSpawnPoints().size())));
+		event.setRespawnLocation(ListenerRespawn.plugin.getSpawnPoints().get(GameUtil.getRnd().nextInt(ListenerRespawn.plugin.getSpawnPoints().size())));
 		player.sendMessage(layout.prefix + layout.clSec + "Du konntest respawnen, da du noch " + layout.clHiLi + plugin.getLives().get(player.getName())
 				+ layout.clSec + " Leben hast.");
 		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100, 1));

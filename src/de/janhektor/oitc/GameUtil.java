@@ -36,7 +36,10 @@ public class GameUtil {
 			plugin.getLives().put(p.getName(), plugin.getMaxLives());
 		}
 		
-		plugin.ingame = true;
+		plugin.setIngame(true);
+		plugin.getHandler().unregister(GameState.LOBBY.bundleName());
+		plugin.getHandler().register(GameState.GAME.bundleName());
+		
 	}
 	
 	public static void endMapVoting(Main plugin, String winMap, int votes) {
@@ -55,26 +58,30 @@ public class GameUtil {
 	
 	public static ItemStack getBow() {
 		ItemStack bow = new ItemStack(Material.BOW);
-		ItemMeta bowMeta = bow.getItemMeta();
-		bowMeta.setDisplayName("§6Bogen");
-		bow.setItemMeta(bowMeta);
+		bow = GameUtil.rename(bow, "§6Bogen");
+		bow = new NBTHelper(bow).setBoolean("oitc.bow", true).modify();
 		return bow;
 	}
 	
 	public static ItemStack getArrow() {
 		ItemStack arrow = new ItemStack(Material.ARROW);
-		ItemMeta arrowMeta = arrow.getItemMeta();
-		arrowMeta.setDisplayName("§6Pfeil");
-		arrow.setItemMeta(arrowMeta);
+		arrow = GameUtil.rename(arrow, "§6Pfeil");
+		arrow = new NBTHelper(arrow).setBoolean("oitc.arrow", true).modify();
 		return arrow;
 	}
 	
 	public static ItemStack getRedstone(int amount) {
 		ItemStack redstone = new ItemStack(Material.REDSTONE);
-		ItemMeta redstoneMeta = redstone.getItemMeta();
-		redstoneMeta.setDisplayName("§3Du hast " + amount + " Leben");
-		redstone.setItemMeta(redstoneMeta);
+		redstone = GameUtil.rename(redstone, "§3Du hast " + amount + " Leben");
+		redstone = new NBTHelper(redstone).setBoolean("oitc.redstone", true).modify();
 		redstone.setAmount(amount);
 		return redstone;
+	}
+	
+	private static ItemStack rename(ItemStack item, String name) {
+		ItemMeta meta = item.getItemMeta();
+		meta.setDisplayName(name);
+		item.setItemMeta(meta);
+		return item;
 	}
 }

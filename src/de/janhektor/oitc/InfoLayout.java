@@ -25,7 +25,7 @@ public class InfoLayout {
 		this.clPos = "§2";
 		this.clNeg = "§4";
 		this.clHiLi = "§a";
-		this.prefix = this.clPri + "[" + this.clSec + name + this.clPri + "] §r";
+		this.prefix = this.clPri + "[" + this.clHiLi + name + this.clPri + "] §r";
 	}
 	
 	public List<String> getLines() {

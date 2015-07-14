@@ -35,8 +35,7 @@ public class CommandOITC extends BasicCommand implements DefaultExecutor {
 		sender.sendMessage(layout.prefix + layout.clPos + "Version: " + this.plugin.getDescription().getVersion());
 		sender.sendMessage(layout.prefix + layout.clPos + "Entwickelt von " + this.plugin.getDescription().getAuthors().get(0));
 		
-		Main.getInstance().handler.unregister("game");
-		Main.getInstance().handler.register("game2");
+		System.out.println(plugin.getHandler().toString());
 		
 		return true;
 	}
